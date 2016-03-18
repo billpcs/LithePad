@@ -1,0 +1,42 @@
+Version v0.0.0.17:
+    Add a first version of Spitter, our screen reader
+    Start clearing up the code to reach an API state some day
+
+Version v0.0.0.16:
+    Make loading files more robust (use of Future { })
+    Add 'Sort Words' in text manipulation
+    Add message while the file is loading or sorting
+    Change version appearance (from v.x.x.x.x to vx.x.x.x)
+
+Version v0.0.0.15:
+    Fixed the problem that the file would not load if the encoding was wrong
+    Fixed the issue that choosing the same tab size, would reload the file
+    Safer way to count the lines
+    More stable Slider for the font size
+    Various coding style and performance fixes (~x2 faster file loading)
+
+Version v0.0.0.14:
+    Allow only monospaced fonts
+    Use 'Monospaced' as the default font for LithePad
+    Various performance fixes
+
+Version v0.0.0.13:
+    Change the shortcut keys for Save, Open, Undo etc... to the normal ones
+    Better and safer way to parse the settings
+
+Version v0.0.0.12:
+	Fix 'Cancel' not correctly handled when pressed in SaveAs/Open mode
+	Fix the 'renaming' problem that occurred when trying to double click
+	a directory or a file
+
+Version v0.0.0.11:
+    Fix bug that caused undo/redo to not work when selected by the Edit Menu.
+
+Version v0.0.0.10:
+    Add 'Not Saved' asterisk indicator
+
+Version v0.0.0.9:
+    Migrate from vars to case classes
+
+Versions Less Than v0.0.0.8:
+	Various alternations
