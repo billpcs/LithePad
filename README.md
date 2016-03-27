@@ -2,14 +2,14 @@ LithePad
 ======
 
 <p align="center">
-<img src="http://i.imgur.com/h7zi17F.png">
+<img src="http://i.imgur.com/fhkgMF7.png">
 </p>
 
 A simple notepad in Scala
 =
 
 <p align="center">
-<img src="http://i.imgur.com/LRgHmmN.png">
+<img src="http://i.imgur.com/Gk5cE7x.png">
 </p>
 
 
