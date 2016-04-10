@@ -1,4 +1,4 @@
-import TextAreaUtils._
+import NotePadMode._
 import scala.concurrent.Future
 import scala.swing.{MainFrame, TextField, EditorPane}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -25,7 +25,7 @@ object FutureLoading {
         editorPane.peer.setCaretPosition(editorPane.peer.getDocument.getLength)
         lineShower.text = caretUpdate(editorPane)
         infoShower.text = "File is ready"
-      case Failure(e) => infoShower.text = "Failed to open"
+      case Failure(e) => editorPane.text = e.toString
     }
   }
 

@@ -22,14 +22,16 @@ object FileChooserUtils {
     writeToFile(new File(path + ""), stringToWrite.split("\n"))
   }
 
-  def chooseFileToOpen() : (Option[String] , Option[String]) = {
+  def chooseFileToOpen(globalVars: GlobalVars) : (Option[String] , Option[String]) = {
     UIManager.put("FileChooser.readOnly", true)
     val chooser = new FileChooser(null)
+    if (globalVars.show_hidden_files)
+      chooser.fileHidingEnabled = false
     val result = chooser.showOpenDialog(null)
     chooser.title = "What would you like to open?"
     if (result == FileChooser.Result.Approve){
       val pathSelected = chooser.selectedFile.toString
-      (Some(pathSelected) , getContent(pathSelected))
+      (Some(pathSelected) , getContent(pathSelected, globalVars))
     }else (None, Some(""))
   }
 

@@ -2,13 +2,13 @@ import java.awt.Font
 import java.io.FileNotFoundException
 import java.util.Properties
 import scala.swing.{EditorPane,TextField}
-import TextAreaUtils.setEditorTheme
+import NotePadMode.setEditorTheme
 import scala.collection.JavaConversions._
 
 object SettingsParser {
 
   def parseSettings(textArea: EditorPane, infoShower: TextField, globalConst: GlobalConst)
-                                        :(String, String, Int, Int, Int) = {
+                                        :(String, String, Int, Int, Int, Boolean) = {
 
     val properties = new Properties
     try {
@@ -27,12 +27,16 @@ object SettingsParser {
 
     def isSupportedFontStyle(n:String): Boolean = {
       val fontStyles = Array("Courier", "Monospaced")
-      fontStyles.contains(n)
+      fontStyles contains n
     }
 
     def isSupportedTheme(n:String) : Boolean = {
       val themes = Array("Cobalt" , "Eiffel" , "Monokai", "Hack", "Amy", "Cinnamon" , "Lithe")
-      themes.contains(n)
+      themes contains n
+    }
+
+    def isBoolean(n: String): Boolean = {
+      Array("true", "false") contains n
     }
 
     var theme = globalConst.DEFAULT_THEME
@@ -41,6 +45,7 @@ object SettingsParser {
     var file_size = globalConst.DEFAULT_MAX_FILE_SIZE
     var tab_size = globalConst.DEFAULT_TAB_SIZE
     var unsupported_setting = false
+    var show_hidden_files = true
     for(key <- properties.stringPropertyNames()) {
       val value = properties.getProperty(key)
       key match {
@@ -57,6 +62,10 @@ object SettingsParser {
           if (isSupportedTabSize(value.toInt)) tab_size = value.toInt
           else unsupported_setting = true
         case "maxFileSize" => file_size = value.toInt
+        case "showHiddenFiles" =>
+          if (isBoolean(value))
+            show_hidden_files = value.toBoolean
+          else unsupported_setting = true
         case _ => unsupported_setting = true
       }
     }
@@ -64,10 +73,10 @@ object SettingsParser {
     setEditorTheme(textArea, infoShower , theme)
     textArea.font = new Font( font_style , java.awt.Font.PLAIN , font_size )
     if (unsupported_setting) {
-      infoShower.text = "One or more of your settings are not supported."
+      infoShower.text = "One or more of the settings are not supported."
     } else {
-      infoShower.text = "All of your settings have been added successfully."
+      infoShower.text = "All of the settings have been added successfully."
     }
-    (theme , font_style , font_size, tab_size, file_size)
+    (theme , font_style , font_size, tab_size, file_size*1000, show_hidden_files)
   }
 }

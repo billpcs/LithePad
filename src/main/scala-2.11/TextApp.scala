@@ -1,7 +1,11 @@
 import javax.swing.UIManager
 import javax.swing.undo.UndoManager
+
 import SettingsParser._
 import TextAreaUtils._
+import NotePadMode._
+import jsyntaxpane.DefaultSyntaxKit
+
 import scala.swing._
 import scala.swing.event._
 
@@ -10,6 +14,9 @@ object TextApp extends SimpleSwingApplication {
   override def main(args: Array[String]) = super.main(args)
 
   def top = new MainFrame {
+
+
+
 
     centerOnScreen()
     minimumSize = new Dimension(250, 250)
@@ -42,16 +49,18 @@ object TextApp extends SimpleSwingApplication {
 
     // Text editor area properties
     val editorPane = new EditorPane() {
+      DefaultSyntaxKit.initKit()
       preferredSize = new Dimension(650, 400)
       // All this will change , but they must exist if the config file could not be opened.
       font = new Font(globalVars.font_style, java.awt.Font.PLAIN, globalVars.font_size)
-      setEditorTheme(this, infoShower, "Monokai")
+      //setEditorTheme(this, infoShower, "Monokai")
       setTabSize(this, 2)
       focusable = true
       resizable = true
-      text = ""
       requestFocus()
     }
+
+
 
     // Create the undo and redo actions
     val undoManager = new UndoManager()
@@ -85,6 +94,7 @@ object TextApp extends SimpleSwingApplication {
       text = "Tab Size: "
     }
 
+
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
     }
@@ -103,6 +113,7 @@ object TextApp extends SimpleSwingApplication {
       fontSizeSlider.value = globalVars.font_size
       globalVars.tab_size = settings._4
       globalVars.max_file_size = settings._5
+      globalVars.show_hidden_files = settings._6
       globalVars.correctValue = getCorrectDivideVal(editorPane)
       setTabSize(editorPane, globalVars.tab_size)
       tabSizeComboBox.peer.setSelectedItem(globalVars.tab_size)
@@ -116,9 +127,11 @@ object TextApp extends SimpleSwingApplication {
       contents += menuBarCreator.fileMenu(topFrameCopy)
       contents += menuBarCreator.editMenu(undoManager)
       contents += menuBarCreator.viewMenu()
+      contents += menuBarCreator.toolsMenu()
       contents += menuBarCreator.preferencesMenu(fontSizeSlider)
       contents += menuBarCreator.helpMenu()
     }
+
 
 
     // Place the items in their place
@@ -161,6 +174,8 @@ object TextApp extends SimpleSwingApplication {
           globalVars.last_tab_size_val = new_val
         }
     }
+
+
     pack()
   }
 }

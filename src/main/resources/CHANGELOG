@@ -1,3 +1,11 @@
+Version v0.0.0.18:
+    Add Text Editor Mode (lines, highlighting)
+    Move Spitter to Tools Menu
+    Add support to show/hide hidden files in settings
+    Add support to choose the max file size permitted to load
+    Fix bug with Sort Words that would sometimes result in wrong output
+    Make default font size 16
+
 Version v0.0.0.17:
     Add a first version of Spitter, our screen reader
     Start clearing up the code to reach an API state some day

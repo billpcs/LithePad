@@ -22,11 +22,11 @@ object FileBufferUtils {
     p.close()
   }
 
-  def getContent(pathToFile : String): Option[String] = {
+  def getContent(pathToFile : String, globalVars: GlobalVars): Option[String] = {
     val in = new BufferedInputStream(new FileInputStream(pathToFile))
     val numBytes = in.available()
     val bytes = new Array[Byte](numBytes)
-    if (bytes.length < Int.MaxValue) {
+    if (bytes.length < globalVars.max_file_size) {
       in.read(bytes, 0, numBytes)
       Some(new String(bytes, "UTF-8"))
     }
@@ -61,6 +61,8 @@ object FileBufferUtils {
   }
 
   def sortFileInWords(fileInString: String): String = {
-    fileInString.split(" ").filter(_.trim != "").sorted.mkString("\n")
+      fileInString.split("\n")
+                  .flatMap(_.split(" "))
+                  .filter(_.trim != "").sorted.mkString("\n")
   }
 }

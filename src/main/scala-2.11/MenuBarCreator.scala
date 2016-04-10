@@ -1,4 +1,6 @@
 import javax.swing.undo.UndoManager
+import NotePadMode._
+import TextEditorMode._
 import TextAreaUtils._
 import scala.swing._
 import javax.swing.KeyStroke
@@ -12,7 +14,9 @@ class MenuBarCreator(currentPath: PathKeeper,
                      lineShower: TextField,
                      globalConst: GlobalConst,
                      globalVars: GlobalVars) {
-
+  val syntaxChooser = new ComboBox[String](globalConst.AVAILABLE_SYNTAX) {
+    peer.setSelectedItem(globalConst.AVAILABLE_SYNTAX(0))
+  }
 
   def fileMenu(top: MainFrame) = new Menu("File") {
     val fileMenuCall = new FileMenuCalls(currentPath, editorPane, infoShower, lineShower, top, globalConst.NAME)
@@ -25,7 +29,7 @@ class MenuBarCreator(currentPath: PathKeeper,
     contents += new MenuItem(new Action("Open File") {
       accelerator = Some(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK))
       def apply() {
-        fileMenuCall.myOpen()
+        fileMenuCall.myOpen(globalVars)
       }
     })
     contents += new MenuItem(new Action("Save") {
@@ -99,6 +103,24 @@ class MenuBarCreator(currentPath: PathKeeper,
   }
 
   def viewMenu() = new Menu("View") {
+    contents += new Menu("Text Editor Mode"){
+      contents += new MenuItem(Action("On"){
+        goToEditorMode(editorPane, infoShower, globalVars)
+      })
+      contents += new MenuItem(Action("Off"){
+        goToNotepadMode(editorPane, infoShower)
+      })
+      contents += new Menu("Choose Language"){
+        globalConst.AVAILABLE_SYNTAX.foreach{lang =>
+          contents += new MenuItem(Action(lang){
+            changeSyntax(lang, editorPane, infoShower, globalVars)
+          })
+        }
+      }
+    }
+  }
+
+  def toolsMenu() = new Menu("Tools") {
     contents += new Menu("Spitter"){
       contents += new MenuItem(Action("Run Spitter"){
         new SpitterWindow(editorPane, globalVars)

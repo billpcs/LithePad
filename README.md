@@ -33,7 +33,7 @@ Here is a quick start guide:
 
 You can read the [README.txt](https://raw.githubusercontent.com/billpcs/LithePad/master/src/main/resources/README.txt) for more information.
 
-### If you just want to run it as an app [grab the jar](https://www.dropbox.com/s/7tybots2ps1ff19/LithePad-assembly-1.0.jar?dl=0) from my dropbox.
+### If you just want to run it as an app [grab the jar](https://www.dropbox.com/s/2f5tp4w9f5hozrb/LithePad.jar?dl=0) from my dropbox.
 
 #Use At Your Own Risk 
 **Use only if you know what you are doing. There may be bugs that can cause data loss.**

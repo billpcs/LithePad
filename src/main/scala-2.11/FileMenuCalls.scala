@@ -42,8 +42,8 @@ class FileMenuCalls(currentPath: PathKeeper, editorPane: EditorPane,
     infoShower.text = "This is a brand new file"
   }
 
-  def myOpen(){
-    val (path: Option[String], content: Option[String]) = chooseFileToOpen()
+  def myOpen(globalVars: GlobalVars){
+    val (path: Option[String], content: Option[String]) = chooseFileToOpen(globalVars)
     if (path.isDefined && content.isDefined) {
       currentPath.setSaved()
       currentPath.path = path.get

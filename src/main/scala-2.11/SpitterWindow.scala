@@ -21,7 +21,7 @@ class SpitterWindow(editorPane: EditorPane, globalVars: GlobalVars) {
   }
 
   // Text editor area properties
-  val outputArea = new EditorPane() {
+  val outputArea = new TextArea(){
     font = new swing.Font("Monospace", java.awt.Font.PLAIN, 100)
     preferredSize = new swing.Dimension(800, peer.getFontMetrics(peer.getFont).getHeight)
     focusable = false
@@ -160,7 +160,7 @@ class SpitterWindow(editorPane: EditorPane, globalVars: GlobalVars) {
 
 
 class SpitterEngine(editorPane: EditorPane,
-                    outputArea: EditorPane,
+                    outputArea: TextArea,
                     globalVars: GlobalVars,
                     slider: Slider) {
 
