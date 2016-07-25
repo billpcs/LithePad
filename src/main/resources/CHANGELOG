@@ -1,3 +1,12 @@
+Version v0.0.1.1:
+    Major refactoring of the code (may cause new bugs/return of old ones)
+    Add shortcuts for changing between notepad and text editor mode
+    Fix bug that caused Spitter not to change theme when the main theme was changed
+    Fix bug that caused editor to become uneditable after opening help and then opening a file
+    Pressing 'ctrl', 'shift', 'alt' and 'caps lock' does not make your file 'unsaved'
+    You can now open files from command line
+    There are now prompts if the file is not saved and you try to quit, open or create a new one
+
 Version v0.0.0.18:
     Add Text Editor Mode (lines, highlighting)
     Move Spitter to Tools Menu
@@ -33,9 +42,9 @@ Version v0.0.0.13:
     Better and safer way to parse the settings
 
 Version v0.0.0.12:
-	Fix 'Cancel' not correctly handled when pressed in SaveAs/Open mode
-	Fix the 'renaming' problem that occurred when trying to double click
-	a directory or a file
+    Fix 'Cancel' not correctly handled when pressed in SaveAs/Open mode
+    Fix the 'renaming' problem that occurred when trying to double click
+    a directory or a file
 
 Version v0.0.0.11:
     Fix bug that caused undo/redo to not work when selected by the Edit Menu.
@@ -47,4 +56,4 @@ Version v0.0.0.9:
     Migrate from vars to case classes
 
 Versions Less Than v0.0.0.8:
-	Various alternations
+    Various alternations
