@@ -1,4 +1,4 @@
-LithePad
+lithepad
 ======
 
 <p align="center">
@@ -12,24 +12,21 @@ A simple notepad in Scala
 <img src="http://i.imgur.com/YtpECPA.png">
 </p>
 
+This project is a place to try out new things I learn in Scala. So do not expect consistency and optimized code.
 
-As I am not developing LithePad professionally, it will be slow in respect to updates and commits.
-I will update the repository as soon as I have made a serious improvement and/or have added new features.
-Also note that I am not a professional software engineer, I just like programming, so this repo may seem to you strange in terms of file construction, code style and generally functionality. I will be doing my best.
-
-In order to make changes to LithePad and then run it you will need to have sbt installed on your system.
-If you do not have it you can download it from [here](http://www.scala-sbt.org/download.html).
+In order to make changes to lithepad and then run it you will need to have sbt installed on your system.
+If you do not have it you can get it [here](http://www.scala-sbt.org/download.html).
 
 Here is a quick start guide:
 
 `$ git clone https://github.com/billpcs/LithePad`
 
-`$ cd LithePad/`
+`$ cd lithepad/`
 
 `$ sbt run`
 
 
-You can read the [README.txt](https://raw.githubusercontent.com/billpcs/LithePad/master/src/main/resources/README.txt) for more information.
+You can read the [README.txt](https://raw.githubusercontent.com/billpcs/lithepad/master/src/main/resources/README.txt) for more information.
 
 ### If you just want to run it as an app [grab the jar](https://www.dropbox.com/s/2f5tp4w9f5hozrb/LithePad.jar?dl=0) from my dropbox.
 
