@@ -30,7 +30,7 @@ You can read the [README.txt](https://raw.githubusercontent.com/billpcs/lithepad
 
 ### If you just want to run it as an app [grab the jar](https://www.dropbox.com/s/2f5tp4w9f5hozrb/LithePad.jar?dl=0) from my dropbox.
 
-#Use At Your Own Risk ¯\\_(ツ)_/¯
+# Use At Your Own Risk ¯\\_(ツ)_/¯
 
 **Use only if you know what you are doing. There may be bugs that can cause data loss.**
 
