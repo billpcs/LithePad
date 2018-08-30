@@ -15,11 +15,11 @@ A simple notepad in Scala
 This project is a place to try out new things I learn in Scala. So do not expect consistency and optimized code.
 
 In order to make changes to lithepad and then run it you will need to have sbt installed on your system.
-If you do not have it you can get it [here](http://www.scala-sbt.org/download.html).
+You can get it [here](http://www.scala-sbt.org/download.html).
 
 Here is a quick start guide:
 
-`$ git clone https://github.com/billpcs/LithePad`
+`$ git clone https://github.com/billpcs/lithepad`
 
 `$ cd lithepad/`
 
@@ -28,7 +28,7 @@ Here is a quick start guide:
 
 You can read the [README.txt](https://raw.githubusercontent.com/billpcs/lithepad/master/src/main/resources/README.txt) for more information.
 
-### If you just want to run it as an app [grab the jar](https://www.dropbox.com/s/2f5tp4w9f5hozrb/LithePad.jar?dl=0) from my dropbox.
+### If you just want to run it as an app, grab the jar from the [releases](https://github.com/billpcs/lithepad/releases) page.
 
 # Use At Your Own Risk ¯\\_(ツ)_/¯
 
