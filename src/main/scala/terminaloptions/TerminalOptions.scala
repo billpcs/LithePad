@@ -6,7 +6,7 @@ object TerminalOptions {
 
   def parse(args: Array[String],
             cluster: Cluster,
-            contentUtils: ContentUtils) = {
+            contentUtils: ContentUtils): Boolean = {
     val p = new scopt.OptionParser[Unit]("java -jar LithePad.jar") {
 
       head("Parser for LithePad arguments based on scopt", "3.5.0")

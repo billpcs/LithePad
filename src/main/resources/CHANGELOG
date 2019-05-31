@@ -1,3 +1,6 @@
+Version v0.0.1.2:
+    No key makes the status "unsaved" unless there is indeed input in the editor
+    Add type annotations in various places
 Version v0.0.1.1:
     Major refactoring of the code (may cause new bugs/return of old ones)
     Add shortcuts for changing between notepad and text editor mode

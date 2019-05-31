@@ -1,7 +1,7 @@
 package textengine.trackers
 
 class KeyPressTracker extends Tracker[Int] {
-  private val NEUTRAL_KEY_CODES = Set(16, 17, 18, 20)
+  private val NEUTRAL_KEY_CODES = Set.empty[Int] //Set(16, 17, 18, 20)
 
   override def toString = {
     set.mkString(" ")

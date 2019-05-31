@@ -14,12 +14,12 @@ import scala.swing._
 class MenuBarCreator(cluster: Cluster,
                      litheUtils: TextEngine,
                      undoHandler: UndoHandler) {
-  val syntaxChooser =
+  val syntaxChooser: ComboBox[String] =
     new ComboBox[String](cluster.const.AVAILABLE_SYNTAX.values.toSeq) {
       peer.setSelectedItem(cluster.const.AVAILABLE_SYNTAX("Scala"))
     }
 
-  def fileMenu(top: MainFrame) = new Menu("File") {
+  def fileMenu(top: MainFrame): Menu = new Menu("File") {
     contents += new MenuItem(new Action("New File") {
       accelerator =
         Some(KeyStroke.getKeyStroke('N', InputEvent.CTRL_DOWN_MASK))
@@ -59,7 +59,7 @@ class MenuBarCreator(cluster: Cluster,
     })
   }
 
-  def editMenu(undoManager: UndoManager) = new Menu("Edit") {
+  def editMenu(undoManager: UndoManager): Menu = new Menu("Edit") {
     contents += new MenuItem(new Action("Copy") {
       accelerator =
         Some(KeyStroke.getKeyStroke('C', InputEvent.CTRL_DOWN_MASK))
@@ -118,7 +118,7 @@ class MenuBarCreator(cluster: Cluster,
     }
   }
 
-  def viewMenu() = new Menu("View") {
+  def viewMenu(): Menu = new Menu("View") {
     contents += new Menu("Text Editor Mode") {
       contents += new MenuItem(new Action("On") {
         accelerator =
@@ -140,7 +140,7 @@ class MenuBarCreator(cluster: Cluster,
     }
   }
 
-  def toolsMenu() = new Menu("Tools") {
+  def toolsMenu(): Menu = new Menu("Tools") {
     contents += new Menu("Spitter") {
       contents += new MenuItem(Action("Run Spitter") {
         SpitterWindow.spitterWindow(cluster)
@@ -148,7 +148,7 @@ class MenuBarCreator(cluster: Cluster,
     }
   }
 
-  def preferencesMenu(fontSizeSlider: Slider) = new Menu("Preferences") {
+  def preferencesMenu(fontSizeSlider: Slider): Menu = new Menu("Preferences") {
     contents += new Menu("Themes") {
       contents += new MenuItem(Action("Amy") {
         setEditorTheme(cluster, "Amy")
@@ -186,7 +186,7 @@ class MenuBarCreator(cluster: Cluster,
     })
   }
 
-  def helpMenu() = new Menu("Info") {
+  def helpMenu(): Menu = new Menu("Info") {
     contents += new MenuItem(Action("Changelog") {
       if (cluster.popUp.wantToCloseFile()) {
         cluster.info.text = "You are now looking at the changelog"

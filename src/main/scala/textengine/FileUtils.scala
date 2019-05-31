@@ -23,13 +23,13 @@ class FileUtils(cluster: Cluster,
       .mkString("\n")
   }
 
-  def getHelp = getFileWithUTF8("/README.txt")
+  def getHelp: String = getFileWithUTF8("/README.txt")
 
-  def getSettingsFile = getFileWithUTF8("/settings.properties")
+  def getSettingsFile: String = getFileWithUTF8("/settings.properties")
 
-  def getSettingsPath = getClass.getResource("/settings.properties").getPath
+  def getSettingsPath: String = getClass.getResource("/settings.properties").getPath
 
-  def getChangeLog = getFileWithUTF8("/CHANGELOG")
+  def getChangeLog: String = getFileWithUTF8("/CHANGELOG")
 
   def writeToFile(f: File, data: String) {
     val p = new java.io.PrintWriter(f)

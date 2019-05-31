@@ -10,14 +10,14 @@ class TextUtils(cluster: Cluster, messenger: Messenger) {
   /*
     Updates the line display to the current position of the caret
   */
-  def caretUpdate = {
+  def caretUpdate: String = {
     try {
       val point = cluster.editor.peer.getCaret.getMagicCaretPosition
       val line = point.getY.toInt / getCorrectDivideVal + 1
       f"(Line: $line)"
     }
     catch {
-      case e: NullPointerException => messenger.caretMessenger.nullMessage
+      case _: NullPointerException => messenger.caretMessenger.nullMessage
     }
   }
 
@@ -40,17 +40,21 @@ class TextUtils(cluster: Cluster, messenger: Messenger) {
   /*
     Given a string it converts it to title case
   */
-  def toTitleCase(s:String) = s(0).toUpper + s.substring(1).toLowerCase
+  def toTitleCase(str:String): String = {
+    def toTitleCaseWord(s: String): String = s.take(1).toUpperCase + s.drop(1)
+    str.split(" ").map(toTitleCaseWord).mkString(" ")
+  }
 
 
-  def setTabSize(editorPane:EditorPane, n: Int) = {
+
+  def setTabSize(editorPane:EditorPane, n: Int): Unit = {
     val d = editorPane.peer.getDocument
     if (d.isInstanceOf[PlainDocument]) {
       editorPane.peer.getDocument.putProperty(PlainDocument.tabSizeAttribute, n)
     }
   }
 
-  def changeTabSize(value: String) = {
+  def changeTabSize(value: String): Unit = {
     setTabSize(cluster.editor, value.toInt)
     cluster.info.text = s"Changed tab size to $value."
     // WARNING, MUST USE reloadContent from ContentUtils, fix later

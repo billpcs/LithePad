@@ -8,7 +8,7 @@ class PathKeeper(var path: String, globalVars: GlobalVars) {
   private var _newFile = true
 
   override def toString = {
-    if ( globalVars.isSaved )
+    if ( globalVars.fileIsSaved )
       s"[ ${this.path} ]"
     else
       s"[ ${this.path} *  ]"
@@ -17,15 +17,15 @@ class PathKeeper(var path: String, globalVars: GlobalVars) {
   def saved = _saved
 
   def saved_=(x: Boolean): Unit = {
-    globalVars.isSaved = x
+    globalVars.fileIsSaved = x
     _saved = x
   }
 
   // We have to keep track of files that
-  // a brand new so that we do not show
+  // are brand new so that we do not show
   // 'not saved' messages for them, even
   // if the are indeed not saved
-  def isnew = _newFile
+  def isnew: Boolean = _newFile
 
   def isnew_=(x: Boolean) {
     _newFile = x

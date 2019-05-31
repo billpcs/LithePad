@@ -36,7 +36,7 @@ object GlobalConst {
                                 "XPath" -> "xpath")
 
   def apply(
-      NAME: String = "LithePad v0.0.1.1 ",
+      NAME: String = "LithePad v0.0.1.2 ",
       MIN_FONT_SIZE: Int = 8,
       MAX_FONT_SIZE: Int = 185,
       DEFAULT_THEME: String = "Monokai",

@@ -1,10 +1,10 @@
-import javax.swing.UIManager
+import javax.swing.{SwingUtilities, UIManager}
 import javax.swing.text.PlainDocument
 import javax.swing.undo.UndoManager
-
 import gui._
 import de.sciss.syntaxpane.DefaultSyntaxKit
 import global.{GlobalConst, GlobalVars}
+import javax.swing.event.{CaretEvent, CaretListener, DocumentEvent, DocumentListener}
 import paths.PathKeeper
 import textengine._
 import textengine.messengers._
@@ -18,31 +18,23 @@ import scala.swing.event._
 
 object LithePad extends SimpleSwingApplication {
 
-  override def main(args: Array[String]) = super.main(args)
+  var cmdArgs: Array[String] = Array.empty[String]
 
   override def startup(args: Array[String]) {
-    val f = new java.io.PrintWriter(".lithepad", "UTF-8")
-    if (args.length > 0) {
-      f.println(args.mkString(" "))
-    } else {
-      f.println("Lithe.NoArguments")
-    }
-    f.close()
-    val t = top
+    cmdArgs = args
+    val t: MainFrame = top
     if (t.size == new Dimension(0, 0)) t.pack()
     t.visible = true
   }
 
-  def top = new MainFrame {
+  def top: MainFrame = new MainFrame {
 
     centerOnScreen()
-    minimumSize = new Dimension(250, 250)
+    minimumSize = new Dimension(1, 1)
     resizable = true
     maximize()
 
-    // A copy to pass it as a parameter in
-    // functions. No better way to do it up to now
-    val topFrameCopy = this
+    private val selff: MainFrame = this
 
     // Global vars for various LithePad properties
     val vars = GlobalVars()
@@ -59,7 +51,7 @@ object LithePad extends SimpleSwingApplication {
     val messenger = Messenger()
 
     // Bottom line shower properties
-    val infoShower = new TextField {
+    val infoShower: TextField = new TextField {
       font = new Font("Serif", java.awt.Font.BOLD, 12)
       columns = 10
       text = messenger.generalMessenger.welcomeMessage
@@ -67,7 +59,7 @@ object LithePad extends SimpleSwingApplication {
     }
 
     // Text editor area properties
-    val editorPane = new EditorPane() {
+    val editorPane: EditorPane = new EditorPane() {
       DefaultSyntaxKit.initKit()
       preferredSize = new Dimension(650, 400)
       // All this will change , but they must exist if the config file could not be opened.
@@ -81,25 +73,25 @@ object LithePad extends SimpleSwingApplication {
     new Button()
 
     // Shower for the line the cursor is placed
-    val lineShower = new TextField {
+    val lineShower: TextField = new TextField {
       text = ""
       font = new Font("Serif", java.awt.Font.BOLD, 14)
       columns = 5
       editable = false
     }
 
-    val fontSizeSlider = new Slider {
+    val fontSizeSlider: Slider = new Slider {
       min = const.MIN_FONT_SIZE
       max = const.MAX_FONT_SIZE
     }
 
-    val tabSizeComboBox = new ComboBox[Int](1 to 8) {
+    val tabSizeComboBox: ComboBox[Int] = new ComboBox[Int](1 to 8) {
       peer.setSelectedItem(const.DEFAULT_TAB_SIZE)
       peer.setPreferredSize(new Dimension(50, 10))
       vars.last_tab_size_val = peer.getSelectedItem.toString
     }
 
-    val tabSizeLabel = new Label() {
+    val tabSizeLabel: Label = new Label() {
       font = new Font("Serif", java.awt.Font.PLAIN, 12)
       text = messenger.generalMessenger.tabSizeMessage
     }
@@ -110,7 +102,25 @@ object LithePad extends SimpleSwingApplication {
 
     val undoHandler = new UndoHandler(undoManager, messenger, infoShower)
 
-    val popUpMessages = new PopUpMessages(topFrameCopy, currentPath)
+    val popUpMessages = new PopUpMessages(selff, currentPath)
+
+    val docListener: DocumentListener = new DocumentListener {
+
+      override def insertUpdate(documentEvent: DocumentEvent): Unit =
+        this.changedUpdate(documentEvent)
+
+      override def removeUpdate(documentEvent: DocumentEvent): Unit =
+        this.changedUpdate(documentEvent)
+
+      override def changedUpdate(documentEvent: DocumentEvent): Unit = {
+        // if file is changed, update various variables
+        if (cluster.vars.fileIsSaved || cluster.pathKeeper.path == "") {
+          cluster.pathKeeper.isnew = false
+          cluster.pathKeeper.saved = false
+          cluster.top.title = cluster.const.NAME + cluster.pathKeeper
+        }
+      }
+    }
 
     val cluster = new Cluster(this,
                               editorPane,
@@ -121,9 +131,11 @@ object LithePad extends SimpleSwingApplication {
                               tabSizeComboBox,
                               popUpMessages,
                               undoManager,
+                              docListener,
                               title,
                               vars,
                               const)
+
     val textUtils = new TextUtils(cluster, messenger)
     val contentUtils = new ContentUtils(cluster, messenger, textUtils)
     val fileUtils = new FileUtils(cluster, contentUtils, messenger)
@@ -132,21 +144,21 @@ object LithePad extends SimpleSwingApplication {
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
     } catch {
-      case e: Exception =>
+      case _: Exception =>
         cluster.info.text = messenger.generalMessenger.lookAndFeelError
     }
 
     try {
       parseSettings(cluster, messenger)
     } catch {
-      case t: Throwable =>
+      case _: Throwable =>
         infoShower.text = messenger.generalMessenger.settingsFileError
     }
 
     // Create the menu bar, together with their actions
     menuBar = new MenuBar {
       val menuBarCreator = new MenuBarCreator(cluster, textEngine, undoHandler)
-      contents += menuBarCreator.fileMenu(topFrameCopy)
+      contents += menuBarCreator.fileMenu(selff)
       contents += menuBarCreator.editMenu(undoManager)
       contents += menuBarCreator.viewMenu()
       contents += menuBarCreator.toolsMenu()
@@ -189,16 +201,13 @@ object LithePad extends SimpleSwingApplication {
       case SelectionChanged(`tabSizeComboBox`) =>
         tabSizeComboBoxReactor.selectionChangedReact()
     }
+
+    cluster.editor.peer.getDocument.addDocumentListener(cluster.docListener)
+
     pack()
 
     // Must be the last thing to do, after everything is created
-    val args = io.Source
-      .fromFile(".lithepad")
-      .getLines
-      .flatMap(_.split(" ").map(_.trim))
-      .toArray
-    if (!(args contains "Lithe.NoArguments"))
-      TerminalOptions.parse(args, cluster, contentUtils)
+    TerminalOptions.parse(cmdArgs, cluster, contentUtils)
 
   }
 }

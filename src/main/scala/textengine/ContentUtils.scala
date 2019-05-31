@@ -34,15 +34,19 @@ class ContentUtils(cluster: Cluster, messenger: Messenger, textUtils: TextUtils)
 
   def loadContentFromData(data: Option[String]): Unit = {
     if (data.isDefined) {
+      cluster.editor.peer.getDocument.removeDocumentListener(cluster.docListener)
       val load = Future {
         cluster.editor.text = data.get
       }
       load.onComplete {
-        case Success(s) =>
+        case Success(_) =>
           cluster.top.title = cluster.windowName + cluster.pathKeeper
           cluster.line.text = textUtils.caretUpdate
           cluster.info.text = messenger.loadMessenger.readyMessage
-        case Failure(f) => cluster.info.text = messenger.loadMessenger.failedMessage
+          cluster.editor.peer.getDocument.addDocumentListener(cluster.docListener)
+        case Failure(_) =>
+          cluster.info.text = messenger.loadMessenger.failedMessage
+          cluster.editor.peer.getDocument.addDocumentListener(cluster.docListener)
       }
     }
     else {
