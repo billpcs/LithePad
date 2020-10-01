@@ -10,7 +10,7 @@ object ThemeSettings {
   def setThemeForEditorMode(cluster: Cluster) = {
     val colorMaker = new GeneralColoring(cluster.editor)
     colorMaker.theme = "Eiffel"
-    cluster.editor.caret.color = cluster.editor.foreground
+    cluster.editor.caret.color = cluster.editor.background
   }
 
   def setEditorTheme(cluster: Cluster, theme: String) = {
